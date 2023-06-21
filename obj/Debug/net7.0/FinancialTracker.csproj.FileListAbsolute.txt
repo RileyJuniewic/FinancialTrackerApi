@@ -1,0 +1,142 @@
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\appsettings.Development.json
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\appsettings.json
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\FinancialTracker.exe
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\FinancialTracker.deps.json
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\FinancialTracker.runtimeconfig.json
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\FinancialTracker.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\FinancialTracker.pdb
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\Azure.Core.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\Azure.Identity.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\Dapper.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\ErrorOr.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\Microsoft.AspNetCore.OpenApi.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\Microsoft.Bcl.AsyncInterfaces.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\Microsoft.Data.SqlClient.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\Microsoft.Identity.Client.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\Microsoft.Identity.Client.Extensions.Msal.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\Microsoft.OpenApi.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\Microsoft.SqlServer.Server.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\Microsoft.Win32.SystemEvents.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\Swashbuckle.AspNetCore.Swagger.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\System.Configuration.ConfigurationManager.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\System.Drawing.Common.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\System.Memory.Data.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\System.Runtime.Caching.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\System.Security.Cryptography.ProtectedData.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\System.Security.Permissions.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\System.Windows.Extensions.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\obj\Debug\net7.0\FinancialTracker.csproj.AssemblyReference.cache
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\obj\Debug\net7.0\FinancialTracker.GeneratedMSBuildEditorConfig.editorconfig
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\obj\Debug\net7.0\FinancialTracker.AssemblyInfoInputs.cache
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\obj\Debug\net7.0\FinancialTracker.AssemblyInfo.cs
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\obj\Debug\net7.0\FinancialTracker.csproj.CoreCompileInputs.cache
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\obj\Debug\net7.0\FinancialTracker.MvcApplicationPartsAssemblyInfo.cs
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\obj\Debug\net7.0\FinancialTracker.MvcApplicationPartsAssemblyInfo.cache
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\obj\Debug\net7.0\staticwebassets\msbuild.FinancialTracker.Microsoft.AspNetCore.StaticWebAssets.props
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\obj\Debug\net7.0\staticwebassets\msbuild.build.FinancialTracker.props
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\obj\Debug\net7.0\staticwebassets\msbuild.buildMultiTargeting.FinancialTracker.props
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\obj\Debug\net7.0\staticwebassets\msbuild.buildTransitive.FinancialTracker.props
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\obj\Debug\net7.0\staticwebassets.pack.json
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\obj\Debug\net7.0\staticwebassets.build.json
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\obj\Debug\net7.0\staticwebassets.development.json
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\obj\Debug\net7.0\scopedcss\bundle\FinancialTracker.styles.css
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\obj\Debug\net7.0\FinancialTracker.csproj.CopyComplete
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\obj\Debug\net7.0\FinancialTracker.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\obj\Debug\net7.0\refint\FinancialTracker.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\obj\Debug\net7.0\FinancialTracker.pdb
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\obj\Debug\net7.0\FinancialTracker.genruntimeconfig.cache
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\obj\Debug\net7.0\ref\FinancialTracker.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\BCrypt.Net-Next.dll
+E:\Visual Studios\FinancialTrackerApi\FinancialTracker\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\appsettings.Development.json
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\appsettings.json
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\FinancialTracker.exe
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\FinancialTracker.deps.json
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\FinancialTracker.runtimeconfig.json
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\FinancialTracker.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\FinancialTracker.pdb
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Azure.Core.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Azure.Identity.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\BCrypt.Net-Next.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Dapper.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\ErrorOr.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Microsoft.AspNetCore.OpenApi.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Microsoft.Bcl.AsyncInterfaces.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Microsoft.Data.SqlClient.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Microsoft.Identity.Client.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Microsoft.Identity.Client.Extensions.Msal.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Microsoft.OpenApi.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Microsoft.SqlServer.Server.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Microsoft.Win32.SystemEvents.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Swashbuckle.AspNetCore.Swagger.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\System.Configuration.ConfigurationManager.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\System.Drawing.Common.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\System.Memory.Data.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\System.Runtime.Caching.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\System.Security.Cryptography.ProtectedData.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\System.Security.Permissions.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\System.Windows.Extensions.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+E:\Projects\.Net\FinancialTrackerApi\obj\Debug\net7.0\FinancialTracker.csproj.AssemblyReference.cache
+E:\Projects\.Net\FinancialTrackerApi\obj\Debug\net7.0\FinancialTracker.GeneratedMSBuildEditorConfig.editorconfig
+E:\Projects\.Net\FinancialTrackerApi\obj\Debug\net7.0\FinancialTracker.AssemblyInfoInputs.cache
+E:\Projects\.Net\FinancialTrackerApi\obj\Debug\net7.0\FinancialTracker.AssemblyInfo.cs
+E:\Projects\.Net\FinancialTrackerApi\obj\Debug\net7.0\FinancialTracker.csproj.CoreCompileInputs.cache
+E:\Projects\.Net\FinancialTrackerApi\obj\Debug\net7.0\FinancialTracker.MvcApplicationPartsAssemblyInfo.cs
+E:\Projects\.Net\FinancialTrackerApi\obj\Debug\net7.0\FinancialTracker.MvcApplicationPartsAssemblyInfo.cache
+E:\Projects\.Net\FinancialTrackerApi\obj\Debug\net7.0\staticwebassets\msbuild.FinancialTracker.Microsoft.AspNetCore.StaticWebAssets.props
+E:\Projects\.Net\FinancialTrackerApi\obj\Debug\net7.0\staticwebassets\msbuild.build.FinancialTracker.props
+E:\Projects\.Net\FinancialTrackerApi\obj\Debug\net7.0\staticwebassets\msbuild.buildMultiTargeting.FinancialTracker.props
+E:\Projects\.Net\FinancialTrackerApi\obj\Debug\net7.0\staticwebassets\msbuild.buildTransitive.FinancialTracker.props
+E:\Projects\.Net\FinancialTrackerApi\obj\Debug\net7.0\staticwebassets.pack.json
+E:\Projects\.Net\FinancialTrackerApi\obj\Debug\net7.0\staticwebassets.build.json
+E:\Projects\.Net\FinancialTrackerApi\obj\Debug\net7.0\staticwebassets.development.json
+E:\Projects\.Net\FinancialTrackerApi\obj\Debug\net7.0\scopedcss\bundle\FinancialTracker.styles.css
+E:\Projects\.Net\FinancialTrackerApi\obj\Debug\net7.0\FinancialTracker.csproj.CopyComplete
+E:\Projects\.Net\FinancialTrackerApi\obj\Debug\net7.0\FinancialTracker.dll
+E:\Projects\.Net\FinancialTrackerApi\obj\Debug\net7.0\refint\FinancialTracker.dll
+E:\Projects\.Net\FinancialTrackerApi\obj\Debug\net7.0\FinancialTracker.pdb
+E:\Projects\.Net\FinancialTrackerApi\obj\Debug\net7.0\FinancialTracker.genruntimeconfig.cache
+E:\Projects\.Net\FinancialTrackerApi\obj\Debug\net7.0\ref\FinancialTracker.dll
