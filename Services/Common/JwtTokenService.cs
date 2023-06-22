@@ -1,5 +1,4 @@
-﻿using ErrorOr;
-using FinancialTracker.Models;
+﻿using FinancialTracker.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,7 +11,7 @@ namespace FinancialTracker.Services.Common
     {
         public const string SectionName = "JwtSettings";
         public string Secret { get; init; } = null!;
-        public int ExpiryMinutes { get; init; }
+        public int ExpiryMinutes { get; init; } = 0;
         public string Issuer { get; init; } = null!;
         public string Audience { get; init; } = null!;
     }
@@ -39,7 +38,7 @@ namespace FinancialTracker.Services.Common
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                 new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName),
                 new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())

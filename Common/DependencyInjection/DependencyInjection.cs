@@ -1,8 +1,6 @@
-﻿using ErrorOr;
-using FinancialTracker.Persistance;
+﻿using FinancialTracker.Persistance;
 using FinancialTracker.Services;
 using FinancialTracker.Services.Common;
-using GroceryStore.Api.Common.Http;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
@@ -17,11 +15,8 @@ namespace FinancialTracker.Common.DependencyInjection
         public static IServiceCollection AddDependencies(this IServiceCollection services, ConfigurationManager configuration)
         {
             services.AddControllers();
-            services
-                .AddAuth(configuration);
-
-            services.AddCustomProblemDetails();
-
+            services.AddAuth(configuration);
+            
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
@@ -44,21 +39,7 @@ namespace FinancialTracker.Common.DependencyInjection
             return services;
         }
 
-        public static IServiceCollection AddCustomProblemDetails(this IServiceCollection services)
-        {
-            services.AddProblemDetails(options =>
-            {
-                options.CustomizeProblemDetails = (context) =>
-                {
-                    var errors = context.HttpContext.Items[HttpContextItemKeys.Errors] as List<Error>;
-                    context.ProblemDetails.Extensions.Add("errorCodes", errors);
-                };
-            });
-
-            return services;
-        }
-
-        public static IServiceCollection AddAuth(this IServiceCollection services, ConfigurationManager configuration)
+        private static IServiceCollection AddAuth(this IServiceCollection services, ConfigurationManager configuration)
         {
             var jwtSettings = new JwtSettings();
             configuration.Bind(JwtSettings.SectionName, jwtSettings);

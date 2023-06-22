@@ -1,4 +1,5 @@
-﻿using ErrorOr;
+﻿using FinancialTracker.Common.Exceptions;
+using FinancialTracker.Models.Enums;
 
 namespace FinancialTracker.Common.Errors
 {
@@ -6,9 +7,21 @@ namespace FinancialTracker.Common.Errors
     {
         public static class UserError
         {
-            public static Error InvalidCredentials => Error.Failure(code: "User.InvalidCredentials", description: "Login failed due to invalid credentials.");
-            public static Error UserNotFound => Error.NotFound(code: "User.UserNotFound", description: "User was not found in search.");
-            public static Error DuplicateEmail => Error.Conflict(code: "User.DuplicateEmail", description: "Email is already registered.");
+            public static ProblemDetailsException InvalidCredentials =>
+                new ProblemDetailsException(ErrorType.Validation,
+                    "SavingsAccount.InvalidCredentials",
+                    "Login failed due to invalid credentials.");
+            
+            public static ProblemDetailsException UserNotFound =>
+                new ProblemDetailsException(ErrorType.Failure,
+                    "SavingsAccount.UserNotFound",
+                    "User was not found in search.");
+            
+            public static ProblemDetailsException DuplicateEmail =>
+                new ProblemDetailsException(ErrorType.Conflict,
+                    "SavingsAccount.DuplicateEmail",
+                    "Email is already registered.");
+            
         }
     }
 }

@@ -1,14 +1,11 @@
-﻿using ErrorOr;
-using FinancialTracker.Common.Errors;
-using System.IdentityModel.Tokens.Jwt;
+﻿using FinancialTracker.Common.Errors;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication;
 
 namespace FinancialTracker.Services.Common
 {
     public interface IHttpContextHelperService
     {
-        ErrorOr<Claim> GetClaimUserId();
+        Claim GetClaimUserId();
     }
 
     public class HttpContextHelperService : IHttpContextHelperService
@@ -20,19 +17,15 @@ namespace FinancialTracker.Services.Common
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public ErrorOr<Claim> GetClaimUserId()
+        public Claim GetClaimUserId()
         {
-            if (_httpContextAccessor.HttpContext is null)
-            { return Errors.HttpContextError.HttpContextNull; }
-
-            // var claim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(claims =>
-            //     claims.Properties.FirstOrDefault(keys =>
-            //         keys.Value == JwtRegisteredClaimNames.Sub).Value != null);
+            if (_httpContextAccessor.HttpContext is null) 
+                throw Errors.HttpContextError.HttpContextNull;
 
             var claim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(claims => claims.Type == "UserId");
 
-            if (claim is null)
-            { return Errors.HttpContextError.CannotFindClaimUserId; }
+            if (claim is null) 
+                throw Errors.HttpContextError.CannotFindClaimUserId;
 
             return claim;
         }

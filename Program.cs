@@ -1,5 +1,4 @@
 using FinancialTracker.Common.DependencyInjection;
-using Microsoft.AspNetCore.CookiePolicy;
 
 var builder = WebApplication.CreateBuilder(args);
 {

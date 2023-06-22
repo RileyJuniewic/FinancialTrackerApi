@@ -1,7 +1,5 @@
-﻿using ErrorOr;
-using FinancialTracker.Common.Contracts.Authentication;
+﻿using FinancialTracker.Common.Contracts.Authentication;
 using FinancialTracker.Controllers.Common;
-using FinancialTracker.Models;
 using FinancialTracker.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,11 +20,16 @@ namespace FinancialTracker.Controllers
         [HttpPost]
         [Route("Login")]
         public async Task<IActionResult> Login(LoginRequest request) =>
-            (await _userService.Login(request)).Match(Ok, Problem);
+            Ok(await _userService.Login(request));
 
         [HttpPost]
         [Route("Register")]
         public async Task<IActionResult> Register(RegisterRequest request) =>
-            (await _userService.Register(request)).Match(Ok, Problem);
+            Ok(await _userService.Register(request));
+            
+        [HttpGet]
+        [Route("Login")]
+        public async Task<IActionResult> Login() =>
+            Ok(await _userService.Login());
     }
 }

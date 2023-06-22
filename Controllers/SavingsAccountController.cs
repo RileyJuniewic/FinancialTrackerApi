@@ -18,35 +18,35 @@ namespace FinancialTracker.Controllers
         [HttpPost]
         [Route("OpenAccount")]
         public async Task<IActionResult> OpenAccount([FromBody] string accountName) =>
-            (await _savingsAccountService.OpenSavingsAccount(accountName)).Match(Ok, Problem);
+            Ok(await _savingsAccountService.OpenSavingsAccount(accountName));
         
         [HttpPost]
         [Route("CloseAccount")]
         public async Task<IActionResult> CloseAccount(CloseAccountRequest request) =>
-            (await _savingsAccountService.CloseSavingsAccount(request)).Match(Ok, Problem);
+            Ok(await _savingsAccountService.CloseSavingsAccount(request));
 
         [HttpPost]
         [Route("NewTransaction")]
         public async Task<IActionResult> NewTransaction(TransactionRequest request) =>
-            (await _savingsAccountService.AddTransaction(request)).Match(Ok, Problem);
+            Ok(await _savingsAccountService.AddTransaction(request));
         
         [HttpPost]
         [Route("Transfer")]
         public async Task<IActionResult> TransferToAccount(TransferRequest request) =>
-            (await _savingsAccountService.TransferToAccount(request)).Match(Ok, Problem);
+            Ok(await _savingsAccountService.TransferToAccount(request));
 
         [HttpGet]
         public async Task<IActionResult> GetAccount(string savingsAccountId) =>
-            (await _savingsAccountService.GetSavingsAccount(savingsAccountId)).Match(Ok, Problem);
+            Ok(await _savingsAccountService.GetSavingsAccount(savingsAccountId));
         
         [HttpGet]
         [Route("Accounts")]
         public async Task<IActionResult> GetAccounts() =>
-            (await _savingsAccountService.GetSavingsAccounts()).Match(Ok, Problem);
+            Ok(await _savingsAccountService.GetSavingsAccounts());
         
         [HttpGet]
         [Route("Transactions")]
         public async Task<IActionResult> GetAccountTransactions(string savingsAccountId) =>
-            (await _savingsAccountService.GetAccountTransactions(savingsAccountId)).Match(Ok, Problem);
+            Ok(await _savingsAccountService.GetAccountTransactions(savingsAccountId));
     }
 }

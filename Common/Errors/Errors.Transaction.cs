@@ -1,4 +1,5 @@
-﻿using ErrorOr;
+﻿using FinancialTracker.Common.Exceptions;
+using FinancialTracker.Models.Enums;
 
 namespace FinancialTracker.Common.Errors
 {
@@ -6,7 +7,11 @@ namespace FinancialTracker.Common.Errors
     {
         public static class TransactionError
         {
-            public static Error InvalidTransactionType => Error.NotFound(code: "Transaction.InvalidTransactionType", description: "Transaction type provided is not registered as a valid type.");
+            public static ProblemDetailsException InvalidTransactionType =>
+                new ProblemDetailsException(ErrorType.Validation,
+                    "SavingsAccount.InvalidTransactionType",
+                    "Transaction type provided is not registered as a valid type.");
+            
         }
     }
 }

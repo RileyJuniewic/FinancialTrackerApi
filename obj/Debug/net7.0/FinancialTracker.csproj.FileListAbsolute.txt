@@ -80,7 +80,6 @@ E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Azure.Core.dll
 E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Azure.Identity.dll
 E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\BCrypt.Net-Next.dll
 E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Dapper.dll
-E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\ErrorOr.dll
 E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Microsoft.AspNetCore.OpenApi.dll
 E:\Projects\.Net\FinancialTrackerApi\bin\Debug\net7.0\Microsoft.Bcl.AsyncInterfaces.dll

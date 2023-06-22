@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "bLy+i6DKMY6oaUleqpIJHOy+4YWfuGZXY2tk+HJi9FWclIIJfrZa+nMd3rejPC0W6ij/6ZJ8KtUuMScDCrS9fA==",
+  "dgSpecHash": "nn30pwJJH3lToRcP6MarqmYXyfDTEQgZpBbfgHBN7OYhmLD8EoPAcSmcfY9Rs/c3m84Ud4RewIg1XWG+iyzpLg==",
   "success": true,
   "projectFilePath": "E:\\Projects\\.Net\\FinancialTrackerApi\\FinancialTracker.csproj",
   "expectedPackageFiles": [
@@ -8,7 +8,6 @@
     "C:\\Users\\Riley\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
     "C:\\Users\\Riley\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\Riley\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
-    "C:\\Users\\Riley\\.nuget\\packages\\erroror\\1.2.1\\erroror.1.2.1.nupkg.sha512",
     "C:\\Users\\Riley\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\7.0.5\\microsoft.aspnetcore.authentication.jwtbearer.7.0.5.nupkg.sha512",
     "C:\\Users\\Riley\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.3\\microsoft.aspnetcore.openapi.7.0.3.nupkg.sha512",
     "C:\\Users\\Riley\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",

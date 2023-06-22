@@ -1,6 +1,4 @@
-﻿using ErrorOr;
-using FinancialTracker.Common.Contracts.SavingsAccount;
-using FinancialTracker.Common.Errors;
+﻿using FinancialTracker.Common.Errors;
 
 namespace FinancialTracker.Models
 {
@@ -29,53 +27,37 @@ namespace FinancialTracker.Models
         public static SavingsAccount Create(string id, string userId, string name, string balance) =>
             new SavingsAccount(id, userId, name, balance);
 
-        public ErrorOr<string> Deposit(string amount)
+        public string Deposit(string amount)
         {
-            if (StringToFloat(Balance) is var numericalBalanceResult && numericalBalanceResult.IsError)
-            { return numericalBalanceResult.Errors; }
+            var numericalBalance = StringToFloat(Balance);
+            var numericalAmount = StringToFloat(amount);
 
-            var numericalBalance = numericalBalanceResult.Value;
-
-            if (StringToFloat(amount) is var numericalAmount && numericalAmount.IsError) 
-            { return numericalAmount.Errors; }
-
-            numericalBalance += numericalAmount.Value;
+            numericalBalance += numericalAmount;
             return Balance = FloatToCurrencyString(numericalBalance);
         }
 
-        public ErrorOr<string> Withdraw(string amount)
+        public string Withdraw(string amount)
         {
-            if (StringToFloat(Balance) is var numericalBalanceResult && numericalBalanceResult.IsError) 
-            { return numericalBalanceResult.Errors; }
+            var numericalBalance = StringToFloat(Balance);
+            var numericalAmount = StringToFloat(amount);
+            var newNumericalBalance = numericalBalance - numericalAmount;
+            if (newNumericalBalance < 0)
+                throw Errors.SavingsAccountError.AmountOverdraw;
 
-            var numericalBalance = numericalBalanceResult.Value;
-
-            if (StringToFloat(amount) is var numericalAmount && numericalAmount.IsError) 
-            { return numericalAmount.Errors; }
-
-            if (numericalBalance - numericalAmount.Value is var newNumericalBalance && newNumericalBalance < 0)
-            { return Errors.SavingsAccountError.AmountOverdraw; }
-
-            numericalBalance = newNumericalBalance;
-            return Balance = FloatToCurrencyString(numericalBalance);
+            return Balance = FloatToCurrencyString(newNumericalBalance);
         }
 
-        public ErrorOr<string> Transfer(SavingsAccount receivingAccount, string amount)
+        public string Transfer(SavingsAccount receivingAccount, string amount)
         {
-            var thisBalance = Withdraw(amount);
-            if (thisBalance.IsError) return thisBalance.Errors;
-            
-            var newReceiverBalance = receivingAccount.Deposit(amount);
-            if (newReceiverBalance.IsError) return newReceiverBalance.Errors;
-
+            Withdraw(amount);
+            receivingAccount.Deposit(amount);
             return Balance;
         }
 
         public static string StringToCurrencyString(string value)
         {
             var floatValue = StringToFloat(value);
-            if (floatValue.IsError) throw new Exceptions.SavingsAccountException(Errors.SavingsAccountError.StringAmountToFloatFailed);
-            return FloatToCurrencyString(floatValue.Value);
+            return FloatToCurrencyString(floatValue);
         }
         
         public static string FloatToCurrencyString(float value) =>
@@ -86,11 +68,12 @@ namespace FinancialTracker.Models
             try 
             { 
                 var floatValue = float.Parse(value);
-                if (floatValue < 0) throw new Exceptions.SavingsAccountException(Errors.SavingsAccountError.StringAmountToFloatFailed)
+                if (floatValue < 0) 
+                    throw Errors.SavingsAccountError.StringAmountToFloatFailed;
                 return floatValue;
             }
             catch (Exception) 
-            { return Errors.SavingsAccountError.StringAmountToFloatFailed; }
+            { throw Errors.SavingsAccountError.StringAmountToFloatFailed; }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using ErrorOr;
+﻿using FinancialTracker.Common.Exceptions;
+using FinancialTracker.Models.Enums;
 
 namespace FinancialTracker.Common.Errors
 {
@@ -6,8 +7,15 @@ namespace FinancialTracker.Common.Errors
     {
         public static class HttpContextError
         {
-            public static Error CannotFindClaimUserId => Error.Unexpected(code: "HttpContext.CannotFindClaimUserId", description: "HttpContext cannot find UserId in claims");
-            public static Error HttpContextNull => Error.NotFound(code: "HttpContext.HttpContextNull", description: "HttpContext could not be located");
+            public static ProblemDetailsException CannotFindClaimUserId =>
+                new ProblemDetailsException(ErrorType.Failure,
+                    "SavingsAccount.CannotFindClaimUserId",
+                    "HttpContext cannot find UserId in claims");
+            
+            public static ProblemDetailsException HttpContextNull =>
+                new ProblemDetailsException(ErrorType.Unexpected,
+                    "SavingsAccount.HttpContextNull",
+                    "HttpContext could not be located");
         }
     }
 }
