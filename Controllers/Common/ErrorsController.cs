@@ -12,6 +12,12 @@ namespace FinancialTracker.Controllers.Common
         public IActionResult HandleError()
         {
             var exceptionHandlerFeature = HttpContext.Features.Get<IExceptionHandlerFeature>()!;
+            
+            if (exceptionHandlerFeature.Error is ProblemDetailsException problemDetailsException)
+            {
+                return Problem(title: problemDetailsException.Title, statusCode: problemDetailsException.StatusCode);
+            }
+            
             return Problem(title: exceptionHandlerFeature.Error.Message);
         }
 

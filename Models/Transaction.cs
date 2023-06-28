@@ -6,38 +6,46 @@ namespace FinancialTracker.Models
     public class Transaction
     {
         public string Id { get; private set; } = string.Empty;
-        public string UserId { get; private set; } = string.Empty;
         public string SavingsAccountId { get; private set; } = string.Empty;
         public string TransactionType { get; private set; } = string.Empty;
         public string Description { get; private set; } = string.Empty;
         public string Amount { get; private set; } = string.Empty;
+        public string NewBalance { get; private set; } = string.Empty;
         public DateTime Date { get; private set; }
 
         public Transaction() 
         {
         }
 
-        private Transaction(string id, string userId, string savingsAccountId, string type, string description, string amount, DateTime date)
+        private Transaction(string id, string savingsAccountId, string type, string description, string amount, string newBalance, DateTime date)
         {
             Id = id;
-            UserId = userId;
             SavingsAccountId = savingsAccountId;
             TransactionType = type;
             Description = description;
             Amount = amount;
+            NewBalance = newBalance;
             Date = date;
         }
 
-        public static Transaction CreateNewTransaction(string userId, string savingsAccountId, TransactionType type, string description, string amount)
+        public static Transaction CreateNewTransaction(string userId, string savingsAccountId, TransactionType type, string description, string amount, SavingsAccount account)
         {
             var transactionType = SetTransactionType(type);
-            return new Transaction(Guid.NewGuid().ToString(), userId, savingsAccountId, transactionType, description, amount, DateTime.UtcNow);
+            
+            var newBalance = transactionType switch
+            {
+                "Withdrawal" => account.Withdraw(amount),
+                "Deposit" => account.Deposit(amount),
+                _ => throw Errors.TransactionError.InvalidTransactionType
+            };
+            
+            return new Transaction(Guid.NewGuid().ToString(), savingsAccountId, transactionType, description, amount, newBalance, DateTime.UtcNow);
         }
 
-        public static Transaction CreateTransaction(string id, string userId, string savingsAccountId, TransactionType type, string description, string amount, DateTime date)
+        public static Transaction CreateExistingTransaction(string id, string userId, string savingsAccountId, TransactionType type, string description, string amount, string newBalance, DateTime date)
         {
             var transactionType = SetTransactionType(type);
-            return new Transaction(id, userId, savingsAccountId, transactionType, description, amount, date);
+            return new Transaction(id, savingsAccountId, transactionType, description, amount, newBalance, date);
         }
 
         public static string CreateId() =>

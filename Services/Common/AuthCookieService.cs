@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using FinancialTracker.Common.Errors;
 using FinancialTracker.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -7,7 +8,8 @@ namespace FinancialTracker.Services.Common;
 
 public interface IAuthCookieService
 {
-    Task CreateSignInCookie(User user);
+    Task SignInAsync(User user);
+    Task SignOutAsync();
 }
 
 public class AuthCookieService : IAuthCookieService
@@ -19,10 +21,10 @@ public class AuthCookieService : IAuthCookieService
         _httpContext = httpContext;
     }
 
-    public async Task CreateSignInCookie(User user)
+    public async Task SignInAsync(User user)
     {
         if (_httpContext.HttpContext == null)
-            throw new Exception();
+            throw Errors.HttpContextError.HttpContextNull;
         
         var claims = new List<Claim>
         {
@@ -47,5 +49,13 @@ public class AuthCookieService : IAuthCookieService
             new ClaimsPrincipal(claimsIdentity), 
             authProperties);
 
+    }
+
+    public async Task SignOutAsync()
+    {
+        if (_httpContext.HttpContext == null)
+            throw Errors.HttpContextError.HttpContextNull;
+
+        await _httpContext.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
     }
 }

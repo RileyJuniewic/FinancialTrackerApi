@@ -11,54 +11,48 @@ namespace FinancialTracker.Services
 {
     public interface IUserService
     {
-        Task<User> Login(LoginRequest request);
-        Task<User> Login();
-        Task<User> VerifyLogin(LoginRequest request);
-        Task<AuthenticationResponse> Register(RegisterRequest request);
+        Task<User> LoginAsync(LoginRequest request);
+        Task<User> LoginAsync();
+        Task LogoutAsync();
+        Task<User> RegisterAsync(RegisterRequest request);
+        Task<User> VerifyLoginAsync(LoginRequest request);
+        Task VerifyCredentialsAsync(LoginRequest request);
     }
 
     public class UserService : IUserService
     {
         private readonly ISqlDataAccess _sqlDataAccess;
-        private readonly IJwtTokenService _jwtTokenService;
         private readonly IAuthCookieService _cookieService;
         private readonly IHttpContextHelperService _httpContext;
 
-        public UserService(ISqlDataAccess sqlDataAccess, IJwtTokenService jwtTokenService, IAuthCookieService cookieService, IHttpContextHelperService httpContext)
+        public UserService(ISqlDataAccess sqlDataAccess, IAuthCookieService cookieService, IHttpContextHelperService httpContext)
         {
             _sqlDataAccess = sqlDataAccess;
-            _jwtTokenService = jwtTokenService;
             _cookieService = cookieService;
             _httpContext = httpContext;
         }
 
-        public async Task<User> Login(LoginRequest request)
+        public async Task<User> LoginAsync(LoginRequest request)
         {
             var user = await GetUserByEmail(request.Email);
             if (user is null || !CheckPassword(user, request.Password)) 
                 throw Errors.UserError.InvalidCredentials;
 
-            await _cookieService.CreateSignInCookie(user);
+            await _cookieService.SignInAsync(user);
             return ScrubPassword(user);
         }
 
-        public async Task<User> Login()
+        public async Task<User> LoginAsync()
         {
-            var userClaim = _httpContext.GetClaimUserId();
-            var user = await GetUserById(userClaim.Value);
+            var userId = _httpContext.GetClaimUserId();
+            var user = await GetUserById(userId.Value);
             if (user is null) throw Errors.UserError.UserNotFound;
             return ScrubPassword(user);
         }
 
-        public async Task<User> VerifyLogin(LoginRequest request)
-        {
-            var user = await GetUserByEmail(request.Email);
-            if (user is null || !CheckPassword(user, request.Password)) 
-                throw Errors.UserError.InvalidCredentials; 
-            return ScrubPassword(user);
-        }
-
-        public async Task<AuthenticationResponse> Register(RegisterRequest request)
+        public async Task LogoutAsync() => await _cookieService.SignOutAsync();
+        
+        public async Task<User> RegisterAsync(RegisterRequest request)
         {
             var newUser = User.CreateNewUser(request.FirstName, request.LastName, request.Email, request.Password);
             var existingUser = await GetUserByEmail(newUser.Email);
@@ -67,7 +61,24 @@ namespace FinancialTracker.Services
 
             newUser.SetPassword(HashPassword(newUser.Password));
             await _sqlDataAccess.GetConnection().ExecuteAsync("AddUser", newUser, commandType: CommandType.StoredProcedure);
-            return new AuthenticationResponse(ScrubPassword(newUser), _jwtTokenService.GenerateToken(newUser));
+            return ScrubPassword(newUser);
+        }
+
+        public async Task<User> VerifyLoginAsync(LoginRequest request)
+        {
+            var user = await GetUserByEmail(request.Email);
+            if (user is null || !CheckPassword(user, request.Password)) 
+                throw Errors.UserError.InvalidCredentials; 
+            return ScrubPassword(user);
+        }
+
+        public async Task VerifyCredentialsAsync(LoginRequest request)
+        {
+            var senderUser = await VerifyLoginAsync(request);
+            var userId = _httpContext.GetClaimUserId();
+
+            if (senderUser.Id != userId.Value)
+                throw Errors.SavingsAccountError.CannotVerifyLoginCredentials;
         }
 
         private static User ScrubPassword(User user)

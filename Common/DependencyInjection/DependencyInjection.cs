@@ -1,11 +1,7 @@
 ﻿using FinancialTracker.Persistance;
 using FinancialTracker.Services;
 using FinancialTracker.Services.Common;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace FinancialTracker.Common.DependencyInjection
@@ -19,14 +15,7 @@ namespace FinancialTracker.Common.DependencyInjection
             
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
-
-            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            services.AddScoped<IHttpContextHelperService, HttpContextHelperService>();
-            services.AddScoped<IAuthCookieService, AuthCookieService>();
-            services.AddScoped<ISqlDataAccess, SqlDataAccess>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ISavingsAccountService, SavingsAccountService>();
+            services.AddServices();
             
             services.AddCors(options =>
             {
@@ -41,26 +30,6 @@ namespace FinancialTracker.Common.DependencyInjection
 
         private static IServiceCollection AddAuth(this IServiceCollection services, ConfigurationManager configuration)
         {
-            var jwtSettings = new JwtSettings();
-            configuration.Bind(JwtSettings.SectionName, jwtSettings);
-
-            services.AddSingleton(Options.Create(jwtSettings));
-            services.AddSingleton<IJwtTokenService, JwtTokenService>();
-
-            services.AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateAudience = true,
-                    ValidateIssuer = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = jwtSettings.Issuer,
-                    ValidAudience = jwtSettings.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
-                };
-            });
-            
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
@@ -69,6 +38,19 @@ namespace FinancialTracker.Common.DependencyInjection
                     options.Cookie.SameSite = SameSiteMode.None;
                     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 });
+
+            return services;
+        }
+
+        private static IServiceCollection AddServices(this IServiceCollection services)
+        {
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddScoped<IHttpContextHelperService, HttpContextHelperService>();
+            services.AddScoped<IAuthCookieService, AuthCookieService>();
+            services.AddScoped<ISqlDataAccess, SqlDataAccess>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ISavingsAccountService, SavingsAccountService>();
 
             return services;
         }

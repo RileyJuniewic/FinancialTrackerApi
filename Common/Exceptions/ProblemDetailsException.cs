@@ -4,7 +4,11 @@ namespace FinancialTracker.Common.Exceptions;
 
 public class ProblemDetailsException : Exception
 {
-
+    public int StatusCode { get; }
+    public string Type { get; }
+    public string Title { get; }
+    public string Details { get; }
+    
     public ProblemDetailsException(ErrorType type, string title, string details, int statusCode = -1)
         :base(details)
     {
@@ -27,9 +31,4 @@ public class ProblemDetailsException : Exception
         Type = type.ToString();
         Title = title;
     }
-
-    public int StatusCode { get; }
-    public string Type { get; }
-    public string Title { get; }
-    public string Details { get; }
 }

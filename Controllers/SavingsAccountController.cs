@@ -17,8 +17,8 @@ namespace FinancialTracker.Controllers
 
         [HttpPost]
         [Route("OpenAccount")]
-        public async Task<IActionResult> OpenAccount([FromBody] string accountName) =>
-            Ok(await _savingsAccountService.OpenSavingsAccount(accountName));
+        public async Task<IActionResult> OpenAccount(OpenAccountRequest request) =>
+            Ok(await _savingsAccountService.OpenSavingsAccount(request));
         
         [HttpPost]
         [Route("CloseAccount")]
