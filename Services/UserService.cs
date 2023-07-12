@@ -1,10 +1,10 @@
 ﻿using Dapper;
 using FinancialTracker.Common.Contracts.Authentication;
-using FinancialTracker.Common.Errors;
 using FinancialTracker.Models;
 using FinancialTracker.Persistance;
 using FinancialTracker.Services.Common;
 using System.Data;
+using System.Security.Authentication;
 using BC = BCrypt.Net.BCrypt;
 
 namespace FinancialTracker.Services
@@ -36,7 +36,7 @@ namespace FinancialTracker.Services
         {
             var user = await GetUserByEmail(request.Email);
             if (user is null || !CheckPassword(user, request.Password)) 
-                throw Errors.UserError.InvalidCredentials;
+                throw new AuthenticationException("Invalid credentials");
 
             await _cookieService.SignInAsync(user);
             return ScrubPassword(user);
@@ -46,7 +46,7 @@ namespace FinancialTracker.Services
         {
             var userId = _httpContext.GetClaimUserId();
             var user = await GetUserById(userId.Value);
-            if (user is null) throw Errors.UserError.UserNotFound;
+            if (user is null) throw new AuthenticationException("User session invalid");
             return ScrubPassword(user);
         }
 
@@ -57,7 +57,7 @@ namespace FinancialTracker.Services
             var newUser = User.CreateNewUser(request.FirstName, request.LastName, request.Email, request.Password);
             var existingUser = await GetUserByEmail(newUser.Email);
             if (existingUser is not null) 
-                throw Errors.UserError.DuplicateEmail;
+                throw new DuplicateNameException("Email already in use.");
 
             newUser.SetPassword(HashPassword(newUser.Password));
             await _sqlDataAccess.GetConnection().ExecuteAsync("AddUser", newUser, commandType: CommandType.StoredProcedure);
@@ -68,7 +68,7 @@ namespace FinancialTracker.Services
         {
             var user = await GetUserByEmail(request.Email);
             if (user is null || !CheckPassword(user, request.Password)) 
-                throw Errors.UserError.InvalidCredentials; 
+                throw new AuthenticationException("Invalid credentials"); 
             return ScrubPassword(user);
         }
 
@@ -78,7 +78,7 @@ namespace FinancialTracker.Services
             var userId = _httpContext.GetClaimUserId();
 
             if (senderUser.Id != userId.Value)
-                throw Errors.SavingsAccountError.CannotVerifyLoginCredentials;
+                throw new AuthenticationException("Invalid credentials");
         }
 
         private static User ScrubPassword(User user)

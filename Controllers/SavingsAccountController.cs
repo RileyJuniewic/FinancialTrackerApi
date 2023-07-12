@@ -1,12 +1,14 @@
-﻿using FinancialTracker.Common.Contracts.SavingsAccount;
-using FinancialTracker.Controllers.Common;
+﻿using FinancialTracker.Common.Contracts.SavingsAccount.Request;
 using FinancialTracker.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinancialTracker.Controllers
 {
+    [ApiController]
+    [Authorize]
     [Route("[controller]")]
-    public class SavingsAccountController : ApiController
+    public class SavingsAccountController : ControllerBase
     {
         private readonly ISavingsAccountService _savingsAccountService;
 
@@ -36,8 +38,8 @@ namespace FinancialTracker.Controllers
             Ok(await _savingsAccountService.TransferToAccount(request));
 
         [HttpGet]
-        public async Task<IActionResult> GetAccount(string savingsAccountId) =>
-            Ok(await _savingsAccountService.GetSavingsAccount(savingsAccountId));
+        public async Task<IActionResult> GetAccount(string accountId) =>
+            Ok(await _savingsAccountService.GetSavingsAccount(accountId));
         
         [HttpGet]
         [Route("Accounts")]
@@ -46,7 +48,12 @@ namespace FinancialTracker.Controllers
         
         [HttpGet]
         [Route("Transactions")]
-        public async Task<IActionResult> GetAccountTransactions(string savingsAccountId) =>
-            Ok(await _savingsAccountService.GetAccountTransactions(savingsAccountId));
+        public async Task<IActionResult> GetAccountTransactions(string accountId) =>
+            Ok(await _savingsAccountService.GetAccountTransactions(accountId));
+
+        [HttpPatch]
+        [Route("ChangeName")]
+        public async Task<IActionResult> ChangeAccountName(AccountNameChangeRequest request) =>
+            Ok(await _savingsAccountService.ChangeAccountName(request));
     }
 }

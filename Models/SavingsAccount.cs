@@ -1,6 +1,4 @@
-﻿using FinancialTracker.Common.Errors;
-
-namespace FinancialTracker.Models
+﻿namespace FinancialTracker.Models
 {
     public class SavingsAccount
     {
@@ -42,7 +40,7 @@ namespace FinancialTracker.Models
             var numericalAmount = StringToFloat(amount);
             var newNumericalBalance = numericalBalance - numericalAmount;
             if (newNumericalBalance < 0)
-                throw Errors.SavingsAccountError.AmountOverdraw;
+                throw new Exception("Amount overdraw");
 
             return Balance = FloatToCurrencyString(newNumericalBalance);
         }
@@ -69,11 +67,11 @@ namespace FinancialTracker.Models
             { 
                 var floatValue = float.Parse(value);
                 if (floatValue < 0) 
-                    throw Errors.SavingsAccountError.StringAmountToFloatFailed;
+                    throw new Exception("Amount must be greater than 0.00");
                 return floatValue;
             }
             catch (Exception) 
-            { throw Errors.SavingsAccountError.StringAmountToFloatFailed; }
+            { throw new Exception("Failed to parse string to float"); }
         }
     }
 }

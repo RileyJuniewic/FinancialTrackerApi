@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-using FinancialTracker.Common.Errors;
 using FinancialTracker.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -24,7 +23,7 @@ public class AuthCookieService : IAuthCookieService
     public async Task SignInAsync(User user)
     {
         if (_httpContext.HttpContext == null)
-            throw Errors.HttpContextError.HttpContextNull;
+            throw new Exception("HttpContext cannot be initialized");
         
         var claims = new List<Claim>
         {
@@ -54,7 +53,7 @@ public class AuthCookieService : IAuthCookieService
     public async Task SignOutAsync()
     {
         if (_httpContext.HttpContext == null)
-            throw Errors.HttpContextError.HttpContextNull;
+            throw new Exception("HttpContext cannot be initialized");
 
         await _httpContext.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
     }

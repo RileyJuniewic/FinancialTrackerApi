@@ -1,6 +1,6 @@
 ﻿using FinancialTracker.Models;
 
-namespace FinancialTracker.Common.Contracts.SavingsAccount
+namespace FinancialTracker.Common.Contracts.SavingsAccount.Response
 {
     public record TransactionResponse(
         Transaction Transaction,

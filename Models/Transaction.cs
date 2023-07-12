@@ -1,5 +1,4 @@
-﻿using FinancialTracker.Common.Errors;
-using FinancialTracker.Models.Enums;
+﻿using FinancialTracker.Models.Enums;
 
 namespace FinancialTracker.Models
 {
@@ -36,7 +35,7 @@ namespace FinancialTracker.Models
             {
                 "Withdrawal" => account.Withdraw(amount),
                 "Deposit" => account.Deposit(amount),
-                _ => throw Errors.TransactionError.InvalidTransactionType
+                _ => throw new Exception("Invalid transaction type")
             };
             
             return new Transaction(Guid.NewGuid().ToString(), savingsAccountId, transactionType, description, amount, newBalance, DateTime.UtcNow);
@@ -58,7 +57,7 @@ namespace FinancialTracker.Models
                 Enums.TransactionType.Deposit => "Deposit",
                 Enums.TransactionType.Withdrawal => "Withdrawal",
                 Enums.TransactionType.Transfer => "Transfer",
-                _ => throw Errors.TransactionError.InvalidTransactionType
+                _ => throw new Exception("Invalid transaction type")
             };
         }
     }

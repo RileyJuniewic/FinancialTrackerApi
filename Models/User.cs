@@ -2,11 +2,11 @@
 {
     public class User
     {
-        public string Id { get; private set; } = String.Empty;
-        public string FirstName { get; private set; } = String.Empty;
-        public string LastName { get; private set; } = String.Empty;
-        public string Email { get; private set; } = String.Empty;
-        public string Password { get; private set; } = String.Empty;
+        public string Id { get; private set; } = string.Empty;
+        public string FirstName { get; private set; } = string.Empty;
+        public string LastName { get; private set; } = string.Empty;
+        public string Email { get; private set; } = string.Empty;
+        public string Password { get; private set; } = string.Empty;
 
         public User()
         {
@@ -28,7 +28,7 @@
             new User(Guid.NewGuid().ToString(), firstName, lastName, email, password);
 
         public void ScrubPassword() =>
-            Password = String.Empty;
+            Password = string.Empty;
 
         public void SetPassword(string passwordHash) =>
             Password = passwordHash;

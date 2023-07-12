@@ -1,4 +1,4 @@
-﻿using FinancialTracker.Common.Errors;
+﻿using System.Security.Authentication;
 using System.Security.Claims;
 
 namespace FinancialTracker.Services.Common
@@ -20,12 +20,12 @@ namespace FinancialTracker.Services.Common
         public Claim GetClaimUserId()
         {
             if (_httpContextAccessor.HttpContext is null) 
-                throw Errors.HttpContextError.HttpContextNull;
+                throw new Exception("HttpContext cannot be initialized");
 
             var claim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(claims => claims.Type == "UserId");
 
             if (claim is null) 
-                throw Errors.HttpContextError.CannotFindClaimUserId;
+                throw new AuthenticationException("User session invalid");
 
             return claim;
         }

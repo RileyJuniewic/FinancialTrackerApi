@@ -1,14 +1,12 @@
 ﻿using FinancialTracker.Common.Contracts.Authentication;
-using FinancialTracker.Controllers.Common;
 using FinancialTracker.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinancialTracker.Controllers
 {
+    [ApiController]
     [Route("[controller]")]
-    [AllowAnonymous]
-    public class UserController : ApiController
+    public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
 

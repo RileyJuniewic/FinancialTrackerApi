@@ -1,10 +1,10 @@
 ﻿using Dapper;
-using FinancialTracker.Common.Contracts.SavingsAccount;
-using FinancialTracker.Common.Errors;
 using FinancialTracker.Models;
 using FinancialTracker.Persistance;
 using FinancialTracker.Services.Common;
 using System.Data;
+using FinancialTracker.Common.Contracts.SavingsAccount.Request;
+using FinancialTracker.Common.Contracts.SavingsAccount.Response;
 using FinancialTracker.Services.Records;
 
 namespace FinancialTracker.Services
@@ -18,6 +18,7 @@ namespace FinancialTracker.Services
         Task<TransactionResponse> AddTransaction(TransactionRequest request);
         Task<TransferResponse> TransferToAccount(TransferRequest request);
         Task<IEnumerable<Transaction>> GetAccountTransactions(string accountId);
+        Task<int> ChangeAccountName(AccountNameChangeRequest request);
     }
 
     public class SavingsAccountService : ISavingsAccountService
@@ -40,9 +41,8 @@ namespace FinancialTracker.Services
                     new { @id = accountId, @userid = userId }, commandType: CommandType.StoredProcedure))
                 .FirstOrDefault();
 
-            return savingsAccount ?? throw Errors.SavingsAccountError.CannotFindAccount;
+            return savingsAccount ?? throw new Exception("Cannot find savings account");
         }
-
 
         public async Task<IEnumerable<SavingsAccount>> GetSavingsAccounts()
         {
@@ -50,7 +50,7 @@ namespace FinancialTracker.Services
             var savingsAccounts = (await _sqlDataAccess.GetConnection().QueryAsync<SavingsAccount>
             ("GetSavingsAccounts", new { @id = userId.Value }, commandType: CommandType.StoredProcedure)).ToList();
 
-            return savingsAccounts.Any() ? savingsAccounts : throw Errors.SavingsAccountError.CannotFindAccount;
+            return savingsAccounts.Any() ? savingsAccounts : throw new Exception("Cannot find savings accounts");
         }
 
         public async Task<SavingsAccount> OpenSavingsAccount(OpenAccountRequest request)
@@ -66,21 +66,21 @@ namespace FinancialTracker.Services
             await _userService.VerifyCredentialsAsync(request.LoginRequest);
             
             var account = await GetSavingsAccount(request.AccountId);
-            if (account.Balance != "0.00") throw Errors.SavingsAccountError.BalanceMustBeZero;
+            if (account.Balance != "0.00") throw new Exception("Savings account balance must be 0.00");
 
             var result = await _sqlDataAccess.GetConnection().ExecuteAsync("DeleteSavingsAccount",
                 new { @accountId = account.Id, @userId = account.UserId },
                 commandType: CommandType.StoredProcedure);
 
-            return result < 0 ? throw Errors.SavingsAccountError.BalanceMustBeZero : account;
+            return result < 0 ? throw new Exception("Savings account balance must be 0.00") : account;
         }
 
         public async Task<TransactionResponse> AddTransaction(TransactionRequest request)
         {
-            var account = await GetSavingsAccount(request.SavingsAccountId);
+            var account = await GetSavingsAccount(request.AccountId);
             var currencyAmount = SavingsAccount.StringToCurrencyString(request.Amount);
             
-            var transaction = Transaction.CreateNewTransaction(account.UserId, request.SavingsAccountId,
+            var transaction = Transaction.CreateNewTransaction(account.UserId, request.AccountId,
                 request.Type, request.Description, currencyAmount, account);
 
             await _sqlDataAccess.GetConnection()
@@ -91,8 +91,6 @@ namespace FinancialTracker.Services
 
         public async Task<TransferResponse> TransferToAccount(TransferRequest request)
         {
-            await _userService.VerifyCredentialsAsync(request.LoginRequest);
-            
             var receiverAccount = await GetSavingsAccount(request.ReceiverAccountId);
             var senderAccount = await GetSavingsAccount(request.AccountId);
             
@@ -105,7 +103,7 @@ namespace FinancialTracker.Services
             var result = await _sqlDataAccess.GetConnection()
                 .ExecuteAsync("TransferToAccount", transfer, commandType: CommandType.StoredProcedure);
             
-            return result < 0 ? throw Errors.SavingsAccountError.SqlErrorCannotCompleteTransfer :
+            return result < 0 ? throw new Exception("Cannot complete transfer") :
                 new TransferResponse(senderAccount.Id, senderAccount.Name, senderAccount.Balance, receiverAccount.Id);
         }
 
@@ -115,6 +113,13 @@ namespace FinancialTracker.Services
             return await _sqlDataAccess.GetConnection()
                 .QueryAsync<Transaction>("GetTransactionsFromAccount", new { @accountId, @userId },
                     commandType: CommandType.StoredProcedure);
+        }
+
+        public async Task<int> ChangeAccountName(AccountNameChangeRequest request)
+        {
+            var userId = _httpContext.GetClaimUserId();            
+            return await _sqlDataAccess.GetConnection().ExecuteAsync("UpdateAccountName",
+                new { @request.AccountId, @userId = userId.Value, @request.Name }, commandType: CommandType.StoredProcedure);
         }
 
         private static Transfer ConvertToTransfer(SavingsAccount sender, SavingsAccount receiver, DateTime date,
