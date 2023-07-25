@@ -6,7 +6,7 @@ public class StringCurrencyAttribute : ValidationAttribute
 {
     public StringCurrencyAttribute()
     {
-        const string defaultErrorMessage = "must be in currency format.";
+        const string defaultErrorMessage = "Value must be in currency format.";
         ErrorMessage ??= defaultErrorMessage;
     }
 

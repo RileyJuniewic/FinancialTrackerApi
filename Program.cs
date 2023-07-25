@@ -15,6 +15,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.SlidingExpiration = true;
         options.Cookie.SameSite = SameSiteMode.None;
         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        options.LoginPath = "/User/Login";
+        options.LogoutPath = "/User/Logout";
     });
             
 builder.Services.AddEndpointsApiExplorer();

@@ -2,15 +2,19 @@
 
 public record Transfer(
     string TransferId,
-    string SenderTransactionId,
-    string SenderAccountId,
-    string SenderUserid,
-    string SenderNewBalance,
-    string ReceiverTransactionId,
-    string ReceiverAccountId,
-    string ReceiverUserId,
-    string ReceiverNewBalance,
+    string UserId,
+    
+    string TransferOutTransactionId,
+    string TransferOutAccountId,
+    string TransferOutNewBalance,
+    string TransferOutType,
+    
+    string TransferInTransactionId,
+    string TransferInAccountId,
+    string TransferInNewBalance,
+    string TransferInType,
     string TransferTotal,
+    
     DateTime DateTime,
     string Description
     );

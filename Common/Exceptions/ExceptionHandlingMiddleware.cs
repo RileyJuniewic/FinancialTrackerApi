@@ -31,7 +31,7 @@ public class ExceptionHandlingMiddleware
                 _ => (int)HttpStatusCode.InternalServerError
             };
 
-            var result = JsonSerializer.Serialize(new { message = error.Message });
+            var result = JsonSerializer.Serialize(new { errors = new { message = error.Message } });
             await response.WriteAsync(result);
         }
     }

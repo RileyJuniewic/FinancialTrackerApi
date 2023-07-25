@@ -1,4 +1,6 @@
-﻿namespace FinancialTracker.Models
+﻿using Microsoft.IdentityModel.Tokens;
+
+namespace FinancialTracker.Models
 {
     public class SavingsAccount
     {
@@ -27,6 +29,7 @@
 
         public string Deposit(string amount)
         {
+            amount = StringToCurrencyString(amount);
             var numericalBalance = StringToFloat(Balance);
             var numericalAmount = StringToFloat(amount);
 
@@ -36,6 +39,7 @@
 
         public string Withdraw(string amount)
         {
+            amount = StringToCurrencyString(amount);
             var numericalBalance = StringToFloat(Balance);
             var numericalAmount = StringToFloat(amount);
             var newNumericalBalance = numericalBalance - numericalAmount;
@@ -45,11 +49,11 @@
             return Balance = FloatToCurrencyString(newNumericalBalance);
         }
 
-        public string Transfer(SavingsAccount receivingAccount, string amount)
+        public void ChangeName(string name)
         {
-            Withdraw(amount);
-            receivingAccount.Deposit(amount);
-            return Balance;
+            if (name.IsNullOrEmpty())
+                throw new Exception("New account name must not be empty.");
+            Name = name;
         }
 
         public static string StringToCurrencyString(string value)

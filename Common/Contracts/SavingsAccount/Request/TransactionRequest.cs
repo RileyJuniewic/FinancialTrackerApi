@@ -15,7 +15,7 @@ namespace FinancialTracker.Common.Contracts.SavingsAccount.Request
         [TransactionEnum]
         TransactionType Type,
         
-        [StringLength(maximumLength: 200)]
+        [StringLength(maximumLength: 100)]
         string Description,
         
         [Required]

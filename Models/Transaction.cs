@@ -1,4 +1,5 @@
-﻿using FinancialTracker.Models.Enums;
+﻿using System.Diagnostics;
+using FinancialTracker.Models.Enums;
 
 namespace FinancialTracker.Models
 {
@@ -27,21 +28,24 @@ namespace FinancialTracker.Models
             Date = date;
         }
 
-        public static Transaction CreateNewTransaction(string userId, string savingsAccountId, TransactionType type, string description, string amount, SavingsAccount account)
+        public static Transaction CreateNewTransaction(string savingsAccountId, TransactionType type, string description, string amount, SavingsAccount account)
         {
             var transactionType = SetTransactionType(type);
+            var currencyAmount = SavingsAccount.StringToCurrencyString(amount);
             
             var newBalance = transactionType switch
             {
                 "Withdrawal" => account.Withdraw(amount),
                 "Deposit" => account.Deposit(amount),
+                "TransferOut" => account.Withdraw(amount),
+                "TransferIn" => account.Deposit(amount),
                 _ => throw new Exception("Invalid transaction type")
             };
             
-            return new Transaction(Guid.NewGuid().ToString(), savingsAccountId, transactionType, description, amount, newBalance, DateTime.UtcNow);
+            return new Transaction(Guid.NewGuid().ToString(), savingsAccountId, transactionType, description, currencyAmount, newBalance, DateTime.UtcNow);
         }
 
-        public static Transaction CreateExistingTransaction(string id, string userId, string savingsAccountId, TransactionType type, string description, string amount, string newBalance, DateTime date)
+        public static Transaction CreateExistingTransaction(string id, string savingsAccountId, TransactionType type, string description, string amount, string newBalance, DateTime date)
         {
             var transactionType = SetTransactionType(type);
             return new Transaction(id, savingsAccountId, transactionType, description, amount, newBalance, date);
@@ -49,6 +53,14 @@ namespace FinancialTracker.Models
 
         public static string CreateId() =>
             Guid.NewGuid().ToString();
+        
+        public static TransactionType StringToTransactionType(string type)
+        {
+            var isValid = Enum.TryParse(type, out TransactionType transactionType);
+            if (!isValid)
+                throw new Exception("The provided transaction type is invalid.");
+            return transactionType;
+        }
 
         private static string SetTransactionType(TransactionType transactionType)
         {
@@ -56,7 +68,8 @@ namespace FinancialTracker.Models
             {
                 Enums.TransactionType.Deposit => "Deposit",
                 Enums.TransactionType.Withdrawal => "Withdrawal",
-                Enums.TransactionType.Transfer => "Transfer",
+                Enums.TransactionType.TransferIn => "TransferIn",
+                Enums.TransactionType.TransferOut => "TransferOut",
                 _ => throw new Exception("Invalid transaction type")
             };
         }

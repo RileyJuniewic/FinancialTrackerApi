@@ -10,6 +10,6 @@ public record OpenAccountRequest(
     [Display(Name = "Account Name")]
     string AccountName,
     
-    [StringCurrency]
+    [StringCurrency(MaxLength = 12)]
     [Display(Name = "Initial Balance")]
     string InitialBalance);
