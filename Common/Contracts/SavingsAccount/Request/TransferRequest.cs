@@ -17,8 +17,7 @@ public record TransferRequest(
     
     [Required]
     [Display(Name = "Transfer Amount")]
-    [StringCurrency(MaxLength = 12)]
-    string TransferAmount, 
+    decimal TransferAmount, 
     
     [StringLength(maximumLength: 200)]
     string Description);

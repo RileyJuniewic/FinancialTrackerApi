@@ -2,11 +2,11 @@
 
 public record TransactionTypesSumFromRangeResponse(
     
-    string DepositSum,
+    decimal DepositSum,
     
-    string WithdrawalSum,
+    decimal WithdrawalSum,
     
-    string TransferInSum,
+    decimal TransferInSum,
     
-    string TransferOutSum
+    decimal TransferOutSum
     );

@@ -69,7 +69,7 @@ namespace FinancialTracker.Services
             await _userService.VerifyCredentialsAsync(request.LoginRequest);
             
             var account = await GetSavingsAccount(request.AccountId);
-            if (account.Balance != "0.00") throw new Exception("Savings account balance must be 0.00");
+            if (account.Balance != 0) throw new Exception("Savings account balance must be 0.00");
 
             var result = await _sqlDataAccess.GetConnection().ExecuteAsync("DeleteSavingsAccount",
                 new { @accountId = account.Id, @userId = account.UserId },
@@ -96,7 +96,6 @@ namespace FinancialTracker.Services
             var transferInAccount = await GetSavingsAccount(request.ReceiverAccountId);
             var transferOutAccount = await GetSavingsAccount(request.AccountId);
             
-            var userId = transferInAccount.UserId;
             if (transferInAccount.UserId != transferOutAccount.UserId)
                 throw new Exception("Accounts used in transfer must be the same.");
 
@@ -106,7 +105,7 @@ namespace FinancialTracker.Services
             var transferOutTransaction = Transaction.CreateNewTransaction(transferOutAccount.Id,
                 TransactionType.TransferOut, request.Description, request.TransferAmount, transferOutAccount);
             
-            var transfer = ConvertToTransfer(userId, transferInTransaction, transferOutTransaction, DateTime.UtcNow);
+            var transfer = ConvertToTransfer(transferInTransaction, transferOutTransaction, DateTime.UtcNow);
 
             var result = await _sqlDataAccess.GetConnection()
                 .ExecuteAsync("TransferToAccount", transfer, commandType: CommandType.StoredProcedure);
@@ -161,31 +160,27 @@ namespace FinancialTracker.Services
                 new { @savingsAccountId = account.Id, request.StartDate, request.EndDate },
                 commandType: CommandType.StoredProcedure)).ToList();
 
-            float depositSum = 0, withdrawalSum = 0, transferInSum = 0, transferOutSum = 0;
+            decimal depositSum = 0, withdrawalSum = 0, transferInSum = 0, transferOutSum = 0;
             
             foreach (var transaction in transactions)
             {
-                var floatAmount = SavingsAccount.StringToFloat(transaction.Amount);
                 switch (transaction.TransactionType)
                 {
-                    case "Deposit": { depositSum += floatAmount; }
+                    case "Deposit": { depositSum += transaction.Amount; }
                         break;
-                    case "Withdrawal": { withdrawalSum += floatAmount; }
+                    case "Withdrawal": { withdrawalSum += transaction.Amount; }
                         break;
-                    case "Transfer In": { transferInSum += floatAmount; }
+                    case "Transfer In": { transferInSum += transaction.Amount; }
                         break;
-                    case "Transfer Out": { transferOutSum += floatAmount; }
+                    case "Transfer Out": { transferOutSum += transaction.Amount; }
                         break;
                 }
             }
             
-            return new TransactionTypesSumFromRangeResponse(SavingsAccount.FloatToCurrencyString(depositSum),
-                SavingsAccount.FloatToCurrencyString(withdrawalSum),
-                SavingsAccount.FloatToCurrencyString(transferInSum),
-                SavingsAccount.FloatToCurrencyString(transferOutSum));
+            return new TransactionTypesSumFromRangeResponse(depositSum,withdrawalSum,transferInSum,transferOutSum);
         }
 
-        private static Transfer ConvertToTransfer(string userId, Transaction transactionIn,
+        private static Transfer ConvertToTransfer(Transaction transactionIn,
             Transaction transactionOut, DateTime date, string? transferId = null)
         {
             transferId ??= Guid.NewGuid().ToString();
@@ -193,7 +188,7 @@ namespace FinancialTracker.Services
             if (transactionIn.Amount != transactionOut.Amount)
                 throw new Exception("Transfer failed.");
             
-            return new Transfer(transferId, userId, transactionOut.Id, transactionOut.SavingsAccountId,
+            return new Transfer(transferId, transactionOut.Id, transactionOut.SavingsAccountId,
                 transactionOut.NewBalance, transactionOut.TransactionType, transactionIn.Id,
                 transactionIn.SavingsAccountId, transactionIn.NewBalance, transactionIn.TransactionType,
                 transactionIn.Amount, date, transactionOut.Description);

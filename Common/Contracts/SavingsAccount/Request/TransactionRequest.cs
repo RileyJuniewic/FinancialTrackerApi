@@ -19,7 +19,6 @@ namespace FinancialTracker.Common.Contracts.SavingsAccount.Request
         string Description,
         
         [Required]
-        [StringCurrency(MaxLength = 12)]
         [Display(Name = "Amount")]
-        string Amount);
+        decimal Amount);
 }

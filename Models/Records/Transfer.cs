@@ -2,18 +2,17 @@
 
 public record Transfer(
     string TransferId,
-    string UserId,
     
     string TransferOutTransactionId,
     string TransferOutAccountId,
-    string TransferOutNewBalance,
+    decimal TransferOutNewBalance,
     string TransferOutType,
     
     string TransferInTransactionId,
     string TransferInAccountId,
-    string TransferInNewBalance,
+    decimal TransferInNewBalance,
     string TransferInType,
-    string TransferTotal,
+    decimal TransferTotal,
     
     DateTime DateTime,
     string Description

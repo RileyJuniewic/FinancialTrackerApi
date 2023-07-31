@@ -10,5 +10,6 @@ public record AccountNameChangeRequest(
     string AccountId,
     
     [Required(AllowEmptyStrings = false)]
+    [Display(Name = "Name")]
     [StringLength(maximumLength: 25)]
     string Name);
