@@ -28,7 +28,14 @@ namespace FinancialTracker.Models
             new SavingsAccount(id, userId, name, balance);
 
         public decimal Deposit(decimal amount) => Balance += amount;
-        public decimal Withdraw(decimal amount) => Balance -= amount;
+
+        public decimal Withdraw(decimal amount)
+        {
+            Balance -= amount;
+            if (Balance < 0)
+                throw new Exception("Account withdrawal overflow");
+            return Balance;
+        }
 
         public void ChangeName(string name)
         {

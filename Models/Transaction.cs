@@ -28,7 +28,7 @@ namespace FinancialTracker.Models
             Date = date;
         }
 
-        public static Transaction CreateNewTransaction(string savingsAccountId, TransactionType type, string description, decimal amount, SavingsAccount account)
+        public static Transaction CreateNewTransaction(string savingsAccountId, TransactionType type, string description, decimal amount, SavingsAccount account, DateTime date)
         {
             var transactionType = SetTransactionType(type);
 
@@ -41,7 +41,7 @@ namespace FinancialTracker.Models
                 _ => throw new Exception("Invalid transaction type")
             };
             
-            return new Transaction(Guid.NewGuid().ToString(), savingsAccountId, transactionType, description, amount, newBalance, DateTime.UtcNow);
+            return new Transaction(Guid.NewGuid().ToString(), savingsAccountId, transactionType, description, amount, newBalance, date);
         }
 
         public static Transaction CreateExistingTransaction(string id, string savingsAccountId, TransactionType type, string description, decimal amount, decimal newBalance, DateTime date)

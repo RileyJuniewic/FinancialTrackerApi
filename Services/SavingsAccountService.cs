@@ -83,7 +83,7 @@ namespace FinancialTracker.Services
             var account = await GetSavingsAccount(request.AccountId);
             
             var transaction = Transaction.CreateNewTransaction(request.AccountId, request.Type, request.Description,
-                request.Amount, account);
+                request.Amount, account, request.Date);
 
             await _sqlDataAccess.GetConnection()
                 .ExecuteAsync("AddTransaction", transaction, commandType: CommandType.StoredProcedure);
@@ -100,12 +100,12 @@ namespace FinancialTracker.Services
                 throw new Exception("Accounts used in transfer must be the same.");
 
             var transferInTransaction = Transaction.CreateNewTransaction(transferInAccount.Id,
-                TransactionType.TransferIn, request.Description, request.TransferAmount, transferInAccount);
+                TransactionType.TransferIn, request.Description, request.TransferAmount, transferInAccount, request.Date);
             
             var transferOutTransaction = Transaction.CreateNewTransaction(transferOutAccount.Id,
-                TransactionType.TransferOut, request.Description, request.TransferAmount, transferOutAccount);
+                TransactionType.TransferOut, request.Description, request.TransferAmount, transferOutAccount, request.Date);
             
-            var transfer = ConvertToTransfer(transferInTransaction, transferOutTransaction, DateTime.UtcNow);
+            var transfer = ConvertToTransfer(transferInTransaction, transferOutTransaction, request.Date);
 
             var result = await _sqlDataAccess.GetConnection()
                 .ExecuteAsync("TransferToAccount", transfer, commandType: CommandType.StoredProcedure);

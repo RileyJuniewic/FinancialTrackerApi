@@ -11,6 +11,11 @@ namespace FinancialTracker.Common.Contracts.SavingsAccount.Request
         [Guid]
         string AccountId,
         
+        [Required(AllowEmptyStrings = false)]
+        [Display(Name = "Date")]
+        [DataType(DataType.Date)]
+        DateTime Date,
+        
         [Required]
         [TransactionEnum]
         TransactionType Type,
