@@ -11,6 +11,11 @@ public record TransferRequest(
     string AccountId, 
     
     [Required(AllowEmptyStrings = false)]
+    [Display(Name = "Date")]
+    [DataType(DataType.Date)]
+    DateTime Date,
+    
+    [Required(AllowEmptyStrings = false)]
     [Display(Name = "Recipient Account Id")]
     [Guid]
     string ReceiverAccountId, 

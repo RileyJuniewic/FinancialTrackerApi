@@ -2,18 +2,18 @@
 
 namespace FinancialTracker.Models
 {
-    public class SavingsAccount
+    public class Account
     {
         public string Id { get; private set; } = string.Empty;
         public string UserId { get; private set; } = string.Empty;
         public string Name { get; private set; } = string.Empty;
         public decimal Balance { get; private set; }
 
-        public SavingsAccount()
+        public Account()
         {
         }
 
-        private SavingsAccount(string id, string userId, string name, decimal balance)
+        private Account(string id, string userId, string name, decimal balance)
         {
             Id = id;
             UserId = userId;
@@ -21,14 +21,15 @@ namespace FinancialTracker.Models
             Balance = balance;
         }
 
-        public static SavingsAccount CreateNew(string userId, string name, decimal balance = 0) =>
-            new SavingsAccount(Guid.NewGuid().ToString(), userId, name, balance);
+        public static Account CreateNew(string userId, string name, decimal balance = 0) =>
+            new Account(Guid.NewGuid().ToString(), userId, name, balance);
 
-        public static SavingsAccount Create(string id, string userId, string name, decimal balance) =>
-            new SavingsAccount(id, userId, name, balance);
+        public static Account Create(string id, string userId, string name, decimal balance) =>
+            new Account(id, userId, name, balance);
 
         public decimal Deposit(decimal amount) => Balance += amount;
-        public decimal Withdraw(decimal amount) => Balance -= amount;
+
+        public decimal Withdraw(decimal amount) => (Balance -= amount) > 0 ? Balance : throw new Exception("Account balance cannot be negative");
 
         public void ChangeName(string name)
         {

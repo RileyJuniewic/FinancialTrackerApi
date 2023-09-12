@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using FinancialTracker.Models.Enums;
+﻿using FinancialTracker.Models.Enums;
 
 namespace FinancialTracker.Models
 {
@@ -28,20 +27,19 @@ namespace FinancialTracker.Models
             Date = date;
         }
 
-        public static Transaction CreateNewTransaction(string savingsAccountId, TransactionType type, string description, decimal amount, SavingsAccount account)
+        public static Transaction CreateNewTransaction(TransactionType type, string description, decimal amount, DateTime date, Account account)
         {
-            var transactionType = SetTransactionType(type);
-
-            var newBalance = transactionType switch
+            var newBalance = type switch
             {
-                "Withdrawal" => account.Withdraw(amount),
-                "Deposit" => account.Deposit(amount),
-                "TransferOut" => account.Withdraw(amount),
-                "TransferIn" => account.Deposit(amount),
+                Enums.TransactionType.Withdrawal => account.Withdraw(amount),
+                Enums.TransactionType.Deposit => account.Deposit(amount),
+                Enums.TransactionType.TransferOut => account.Withdraw(amount),
+                Enums.TransactionType.TransferIn => account.Deposit(amount),
                 _ => throw new Exception("Invalid transaction type")
             };
+            var transactionType = SetTransactionType(type);
             
-            return new Transaction(Guid.NewGuid().ToString(), savingsAccountId, transactionType, description, amount, newBalance, DateTime.UtcNow);
+            return new Transaction(Guid.NewGuid().ToString(), account.Id, transactionType, description, amount, newBalance, date);
         }
 
         public static Transaction CreateExistingTransaction(string id, string savingsAccountId, TransactionType type, string description, decimal amount, decimal newBalance, DateTime date)
@@ -59,6 +57,14 @@ namespace FinancialTracker.Models
             if (!isValid)
                 throw new Exception("The provided transaction type is invalid.");
             return transactionType;
+        }
+
+        public void SetBalance(Account account)
+        {
+            if (account.Id != SavingsAccountId)
+                throw new Exception("Savings account Id must match when setting a new transaction balance.");
+            
+            NewBalance = account.Balance;
         }
 
         private static string SetTransactionType(TransactionType transactionType)

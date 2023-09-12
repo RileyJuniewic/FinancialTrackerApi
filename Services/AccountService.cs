@@ -10,61 +10,62 @@ using FinancialTracker.Services.Records;
 
 namespace FinancialTracker.Services
 {
-    public interface ISavingsAccountService
+    public interface IAccountService
     {
-        Task<SavingsAccount> GetSavingsAccount(string accountId);
-        Task<IEnumerable<SavingsAccount>> GetSavingsAccounts();
-        Task<SavingsAccount> OpenSavingsAccount(OpenAccountRequest request);
-        Task<SavingsAccount> CloseSavingsAccount(CloseAccountRequest request);
-        Task<TransactionResponse> AddTransaction(TransactionRequest request);
+        Task<Account> GetSavingsAccount(string accountId);
+        Task<IEnumerable<Account>> GetSavingsAccounts();
+        Task<Account> OpenSavingsAccount(OpenAccountRequest request);
+        Task<Account> CloseSavingsAccount(CloseAccountRequest request);
+        Task<TransactionResponse> AddTransaction(AddTransactionRequest request);
         Task<TransferResponse> TransferToAccount(TransferRequest request);
         Task<IEnumerable<Transaction>> GetAccountTransactions(string accountId, int offset, int rowLimit);
-        Task<SavingsAccount> ChangeAccountName(AccountNameChangeRequest request);
+        Task<Account> ChangeAccountName(AccountNameChangeRequest request);
         Task<Transaction> EditTransaction(EditTransactionRequest request);
+        Task<Transaction> DeleteTransaction(DeleteTransactionRequest request);
         Task<TransactionTypesSumFromRangeResponse> GetTransactionSumsFromRange(TransactionTypesSumFromRangeRequest request);
     }
 
-    public class SavingsAccountService : ISavingsAccountService
+    public class AccountService : IAccountService
     {
         private readonly ISqlDataAccess _sqlDataAccess;
         private readonly IHttpContextHelperService _httpContext;
         private readonly IUserService _userService;
 
-        public SavingsAccountService(ISqlDataAccess sqlDataAccess, IHttpContextHelperService httpContext, IUserService userService)
+        public AccountService(ISqlDataAccess sqlDataAccess, IHttpContextHelperService httpContext, IUserService userService)
         {
             _sqlDataAccess = sqlDataAccess;
             _httpContext = httpContext;
             _userService = userService;
         }
 
-        public async Task<SavingsAccount> GetSavingsAccount(string accountId)
+        public async Task<Account> GetSavingsAccount(string accountId)
         {
             var userId = _httpContext.GetClaimUserId().Value;
-            var savingsAccount = (await _sqlDataAccess.GetConnection().QueryAsync<SavingsAccount>("GetSavingsAccount",
+            var savingsAccount = (await _sqlDataAccess.GetConnection().QueryAsync<Account>("GetSavingsAccount",
                     new { @id = accountId, @userid = userId }, commandType: CommandType.StoredProcedure))
                 .FirstOrDefault();
 
             return savingsAccount ?? throw new Exception("The provided account id is invalid.");
         }
 
-        public async Task<IEnumerable<SavingsAccount>> GetSavingsAccounts()
+        public async Task<IEnumerable<Account>> GetSavingsAccounts()
         {
             var userId = _httpContext.GetClaimUserId();
-            var savingsAccounts = (await _sqlDataAccess.GetConnection().QueryAsync<SavingsAccount>
+            var savingsAccounts = (await _sqlDataAccess.GetConnection().QueryAsync<Account>
             ("GetSavingsAccounts", new { @id = userId.Value }, commandType: CommandType.StoredProcedure)).ToList();
 
             return savingsAccounts.Any() ? savingsAccounts : throw new Exception("Cannot find savings accounts");
         }
 
-        public async Task<SavingsAccount> OpenSavingsAccount(OpenAccountRequest request)
+        public async Task<Account> OpenSavingsAccount(OpenAccountRequest request)
         {
             var userId = _httpContext.GetClaimUserId();
-            var account = SavingsAccount.CreateNew(userId.Value, request.AccountName, request.InitialBalance);
+            var account = Account.CreateNew(userId.Value, request.AccountName, request.InitialBalance);
             await _sqlDataAccess.GetConnection().ExecuteAsync("OpenSavingsAccount", account, commandType: CommandType.StoredProcedure);
             return account;
         }
 
-        public async Task<SavingsAccount> CloseSavingsAccount(CloseAccountRequest request)
+        public async Task<Account> CloseSavingsAccount(CloseAccountRequest request)
         {
             await _userService.VerifyCredentialsAsync(request.LoginRequest);
             
@@ -78,12 +79,12 @@ namespace FinancialTracker.Services
             return result < 0 ? throw new Exception("Savings account balance must be 0.00") : account;
         }
 
-        public async Task<TransactionResponse> AddTransaction(TransactionRequest request)
+        public async Task<TransactionResponse> AddTransaction(AddTransactionRequest request)
         {
             var account = await GetSavingsAccount(request.AccountId);
-            
-            var transaction = Transaction.CreateNewTransaction(request.AccountId, request.Type, request.Description,
-                request.Amount, account);
+
+            var transaction = Transaction.CreateNewTransaction(request.Type, request.Description, request.Amount,
+                request.Date, account);
 
             await _sqlDataAccess.GetConnection()
                 .ExecuteAsync("AddTransaction", transaction, commandType: CommandType.StoredProcedure);
@@ -99,14 +100,15 @@ namespace FinancialTracker.Services
             if (transferInAccount.UserId != transferOutAccount.UserId)
                 throw new Exception("Accounts used in transfer must be the same.");
 
-            var transferInTransaction = Transaction.CreateNewTransaction(transferInAccount.Id,
-                TransactionType.TransferIn, request.Description, request.TransferAmount, transferInAccount);
-            
-            var transferOutTransaction = Transaction.CreateNewTransaction(transferOutAccount.Id,
-                TransactionType.TransferOut, request.Description, request.TransferAmount, transferOutAccount);
-            
-            var transfer = ConvertToTransfer(transferInTransaction, transferOutTransaction, DateTime.UtcNow);
+            var transferInTransaction = Transaction.CreateNewTransaction(TransactionType.TransferIn,
+                request.Description, request.TransferAmount, request.Date, transferInAccount);
 
+            var transferOutTransaction = Transaction.CreateNewTransaction(TransactionType.TransferOut,
+                request.Description, request.TransferAmount, request.Date, transferOutAccount);
+            
+            //var transfer = ConvertToTransfer(transferInTransaction, transferOutTransaction, DateTime.UtcNow);
+            var transfer = new { };
+            
             var result = await _sqlDataAccess.GetConnection()
                 .ExecuteAsync("TransferToAccount", transfer, commandType: CommandType.StoredProcedure);
             
@@ -122,7 +124,7 @@ namespace FinancialTracker.Services
                     commandType: CommandType.StoredProcedure);
         }
 
-        public async Task<SavingsAccount> ChangeAccountName(AccountNameChangeRequest request)
+        public async Task<Account> ChangeAccountName(AccountNameChangeRequest request)
         {
             var account = await GetSavingsAccount(request.AccountId);
             account.ChangeName(request.Name);
@@ -153,6 +155,35 @@ namespace FinancialTracker.Services
             return newTransaction;
         }
 
+        public async Task<Transaction> DeleteTransaction(DeleteTransactionRequest request)
+        {
+            var account = await GetSavingsAccount(request.SavingsAccountId);
+            var transaction = await GetTransaction(account.Id, request.TransactionId);
+
+            if (transaction.TransactionType is "TransferIn" or "TransferOut")
+                throw new Exception("Transaction deleted cannot be a transfer.");
+            
+            switch (transaction.TransactionType)
+            {
+                case "Deposit": 
+                case "TransferIn":
+                    account.Withdraw(transaction.Amount);
+                    break;
+                case "Withdrawal": 
+                case "TransferOut":
+                    account.Deposit(transaction.Amount);
+                    break;
+            }
+
+            transaction.SetBalance(account);
+            
+            await _sqlDataAccess.GetConnection().ExecuteAsync("DeleteTransaction",
+            new { transaction.Id, transaction.SavingsAccountId, newBalance = account.Balance },
+            commandType: CommandType.StoredProcedure);
+
+            return transaction;
+        }
+
         public async Task<TransactionTypesSumFromRangeResponse> GetTransactionSumsFromRange(TransactionTypesSumFromRangeRequest request)
         {
             var account = await GetSavingsAccount(request.SavingsAccountId);
@@ -170,9 +201,9 @@ namespace FinancialTracker.Services
                         break;
                     case "Withdrawal": { withdrawalSum += transaction.Amount; }
                         break;
-                    case "Transfer In": { transferInSum += transaction.Amount; }
+                    case "TransferIn": { transferInSum += transaction.Amount; }
                         break;
-                    case "Transfer Out": { transferOutSum += transaction.Amount; }
+                    case "TransferOut": { transferOutSum += transaction.Amount; }
                         break;
                 }
             }
@@ -180,19 +211,19 @@ namespace FinancialTracker.Services
             return new TransactionTypesSumFromRangeResponse(depositSum,withdrawalSum,transferInSum,transferOutSum);
         }
 
-        private static Transfer ConvertToTransfer(Transaction transactionIn,
-            Transaction transactionOut, DateTime date, string? transferId = null)
-        {
-            transferId ??= Guid.NewGuid().ToString();
-
-            if (transactionIn.Amount != transactionOut.Amount)
-                throw new Exception("Transfer failed.");
-            
-            return new Transfer(transferId, transactionOut.Id, transactionOut.SavingsAccountId,
-                transactionOut.NewBalance, transactionOut.TransactionType, transactionIn.Id,
-                transactionIn.SavingsAccountId, transactionIn.NewBalance, transactionIn.TransactionType,
-                transactionIn.Amount, date, transactionOut.Description);
-        }
+        // private static Transfer ConvertToTransfer(Transaction transactionIn,
+        //     Transaction transactionOut, DateTime date, string? transferId = null)
+        // {
+        //     transferId ??= Guid.NewGuid().ToString();
+        //
+        //     if (transactionIn.Amount != transactionOut.Amount)
+        //         throw new Exception("Transfer failed.");
+        //     
+        //     return new Transfer(transferId, transactionOut.Id, transactionOut.SavingsAccountId,
+        //         transactionOut.NewBalance, transactionOut.TransactionType, transactionIn.Id,
+        //         transactionIn.SavingsAccountId, transactionIn.NewBalance, transactionIn.TransactionType,
+        //         transactionIn.Amount, date, transactionOut.Description);
+        // }
 
         private async Task<Transaction> GetTransaction(string accountId, string transactionId)
         {

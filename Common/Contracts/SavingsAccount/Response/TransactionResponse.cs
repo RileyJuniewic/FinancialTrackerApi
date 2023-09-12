@@ -3,6 +3,6 @@
 namespace FinancialTracker.Common.Contracts.SavingsAccount.Response
 {
     public record TransactionResponse(
-        Transaction Transaction,
-        Models.SavingsAccount SavingsAccount);
+        Models.Transaction Transaction,
+        Models.Account Account);
 }

@@ -10,61 +10,66 @@ namespace FinancialTracker.Controllers
     [Route("[controller]")]
     public class SavingsAccountController : ControllerBase
     {
-        private readonly ISavingsAccountService _savingsAccountService;
+        private readonly IAccountService _accountService;
 
-        public SavingsAccountController(ISavingsAccountService savingsAccountService)
+        public SavingsAccountController(IAccountService accountService)
         {
-            _savingsAccountService = savingsAccountService;
+            _accountService = accountService;
         }
 
         [HttpPost]
         [Route("OpenAccount")]
         public async Task<IActionResult> OpenAccount(OpenAccountRequest request) =>
-            Ok(await _savingsAccountService.OpenSavingsAccount(request));
+            Ok(await _accountService.OpenSavingsAccount(request));
         
         [HttpPost]
         [Route("CloseAccount")]
         public async Task<IActionResult> CloseAccount(CloseAccountRequest request) =>
-            Ok(await _savingsAccountService.CloseSavingsAccount(request));
+            Ok(await _accountService.CloseSavingsAccount(request));
 
         [HttpPost]
         [Route("NewTransaction")]
-        public async Task<IActionResult> NewTransaction(TransactionRequest request) =>
-            Ok(await _savingsAccountService.AddTransaction(request));
+        public async Task<IActionResult> NewTransaction(AddTransactionRequest request) =>
+            Ok(await _accountService.AddTransaction(request));
         
         [HttpPost]
         [Route("Transfer")]
         public async Task<IActionResult> TransferToAccount(TransferRequest request) =>
-            Ok(await _savingsAccountService.TransferToAccount(request));
+            Ok(await _accountService.TransferToAccount(request));
+        
+        [HttpPost]
+        [Route("DeleteTransaction")]
+        public async Task<IActionResult> DeleteTransaction(DeleteTransactionRequest request) =>
+            Ok(await _accountService.DeleteTransaction(request));
 
         [HttpGet]
         public async Task<IActionResult> GetAccount(string accountId) =>
-            Ok(await _savingsAccountService.GetSavingsAccount(accountId));
+            Ok(await _accountService.GetSavingsAccount(accountId));
         
         [HttpGet]
         [Route("Accounts")]
         public async Task<IActionResult> GetAccounts() =>
-            Ok(await _savingsAccountService.GetSavingsAccounts());
+            Ok(await _accountService.GetSavingsAccounts());
         
         [HttpGet]
         [Route("Transactions")]
         public async Task<IActionResult> GetAccountTransactions(string accountId, int dbOffset, int dbRowLimit) =>
-            Ok(await _savingsAccountService.GetAccountTransactions(accountId, dbOffset, dbRowLimit));
+            Ok(await _accountService.GetAccountTransactions(accountId, dbOffset, dbRowLimit));
 
         [HttpGet]
         [Route("TransactionSumsFromRange")]
         public async Task<IActionResult>
             GetAccountTransactionSumsFromRange([FromQuery] TransactionTypesSumFromRangeRequest request) =>
-            Ok(await _savingsAccountService.GetTransactionSumsFromRange(request));
+            Ok(await _accountService.GetTransactionSumsFromRange(request));
 
         [HttpPatch]
         [Route("ChangeName")]
         public async Task<IActionResult> ChangeAccountName(AccountNameChangeRequest request) =>
-            Ok(await _savingsAccountService.ChangeAccountName(request));
+            Ok(await _accountService.ChangeAccountName(request));
 
         [HttpPut]
         [Route("EditTransaction")]
         public async Task<IActionResult> EditTransaction(EditTransactionRequest request) =>
-            Ok(await _savingsAccountService.EditTransaction(request));
+            Ok(await _accountService.EditTransaction(request));
     }
 }

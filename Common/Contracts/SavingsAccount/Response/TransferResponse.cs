@@ -3,5 +3,5 @@
 namespace FinancialTracker.Common.Contracts.SavingsAccount.Response;
 
 public record TransferResponse(
-    Transaction TransferOut,
-    Transaction TransferIn);
+    Models.Transaction TransferOut,
+    Models.Transaction TransferIn);

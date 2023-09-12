@@ -27,7 +27,7 @@ builder.Services.AddScoped<IHttpContextHelperService, HttpContextHelperService>(
 builder.Services.AddScoped<IAuthCookieService, AuthCookieService>();
 builder.Services.AddScoped<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<ISavingsAccountService, SavingsAccountService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
             
 builder.Services.AddCors(options =>
 {

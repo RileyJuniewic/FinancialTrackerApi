@@ -4,12 +4,17 @@ using FinancialTracker.Models.Enums;
 
 namespace FinancialTracker.Common.Contracts.SavingsAccount.Request
 {
-    public record TransactionRequest(
+    public record AddTransactionRequest(
         
         [Required(AllowEmptyStrings = false)]
         [Display(Name = "Account Id")]
         [Guid]
         string AccountId,
+        
+        [Required(AllowEmptyStrings = false)]
+        [Display(Name = "Date")]
+        [DataType(DataType.Date)]
+        DateTime Date,
         
         [Required]
         [TransactionEnum]
