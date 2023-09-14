@@ -1,23 +1,27 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Data;
+using Dapper;
 
 namespace FinancialTracker.Persistance
 {
     public interface ISqlDataAccess
     {
-        IDbConnection GetConnection();
+        Task<IEnumerable<T>> LoadData<T, TU>(string storedProcedure, TU parameters, string connectionString = "Default");
+        Task<int> SaveData<TU>(string storedProcedure, TU parameters, string connectionString = "Default");
     }
 
     public class SqlDataAccess : ISqlDataAccess
     {
-        private readonly IDbConnection _connection;
-
-        public SqlDataAccess(IConfiguration configuration, string connectionString = "Default")
+        public async Task<IEnumerable<T>> LoadData<T, TU>(string storedProcedure, TU parameters, string connectionString = "Default")
         {
-            _connection = new SqlConnection(configuration.GetConnectionString(connectionString));
+            await using var connection = new SqlConnection(connectionString);
+            return await connection.QueryAsync<T>(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
         }
 
-        public IDbConnection GetConnection()
-            => _connection;
+        public async Task<int> SaveData<TU>(string storedProcedure, TU parameters, string connectionString = "Default")
+        {
+            await using var connection = new SqlConnection(connectionString);
+            return await connection.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
+        }
     }
 }
