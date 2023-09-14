@@ -1,4 +1,4 @@
-﻿using FinancialTracker.Common.Contracts.Authentication;
+﻿using FinancialTracker.Common.Contracts;
 using FinancialTracker.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +14,8 @@ namespace FinancialTracker.Controllers
         {
             _userService = userService;
         }
-
+        
+/*
         [HttpPost]
         [Route("Login")]
         public async Task<IActionResult> Login(LoginRequest request) =>
@@ -37,5 +38,7 @@ namespace FinancialTracker.Controllers
             await _userService.LogoutAsync();
             return Ok();
         }
+        
+        */
     }
 }

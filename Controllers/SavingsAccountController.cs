@@ -1,5 +1,4 @@
-﻿using FinancialTracker.Common.Contracts.SavingsAccount.Request;
-using FinancialTracker.Services;
+﻿using FinancialTracker.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +15,7 @@ namespace FinancialTracker.Controllers
         {
             _accountService = accountService;
         }
-
+/*
         [HttpPost]
         [Route("OpenAccount")]
         public async Task<IActionResult> OpenAccount(OpenAccountRequest request) =>
@@ -71,5 +70,7 @@ namespace FinancialTracker.Controllers
         [Route("EditTransaction")]
         public async Task<IActionResult> EditTransaction(EditTransactionRequest request) =>
             Ok(await _accountService.EditTransaction(request));
+            
+            */
     }
 }

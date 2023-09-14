@@ -21,13 +21,16 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
             
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpContextAccessor();
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddScoped<IHttpContextHelperService, HttpContextHelperService>();
 builder.Services.AddScoped<IAuthCookieService, AuthCookieService>();
 builder.Services.AddScoped<ISqlDataAccess, SqlDataAccess>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IAccountService, AccountService>();
+//builder.Services.AddScoped<IUserService, UserService>();
+//.Services.AddScoped<IAccountService, AccountService>();
+
+builder.Services.AddScoped<ITestService, TestService>();
             
 builder.Services.AddCors(options =>
 {
@@ -50,6 +53,7 @@ app.UseCors("CorsLocalHost8080");
 app.UseCookiePolicy();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseMiddleware<GuidValidationMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
