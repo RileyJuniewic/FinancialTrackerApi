@@ -53,7 +53,7 @@ app.UseCors("CorsLocalHost8080");
 app.UseCookiePolicy();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
-app.UseMiddleware<GuidValidationMiddleware>();
+//app.UseMiddleware<GuidValidationMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -1,3 +1,5 @@
 ﻿namespace FinancialTracker.Common.Contracts.Account;
 
-public record GetAllAccountsRequest();
+public record GetAllAccountsRequest(
+    Guid AccountId
+    ) : AccountBase(AccountId);
