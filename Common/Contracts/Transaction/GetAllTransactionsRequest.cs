@@ -2,4 +2,4 @@
 
 public record GetAllTransactionsRequest(
     Guid AccountId
-    ) : AccountBase(AccountId);
+    ) : IAccountRequest;

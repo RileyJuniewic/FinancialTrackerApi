@@ -2,4 +2,4 @@
 
 public record AddTransferRequest(
     Guid AccountId
-    ) : AccountBase(AccountId);
+    ) : IAccountRequest;

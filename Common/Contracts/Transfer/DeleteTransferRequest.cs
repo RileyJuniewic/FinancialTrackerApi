@@ -2,4 +2,4 @@
 
 public record DeleteTransferRequest(
     Guid AccountId
-    ) : AccountBase(AccountId);
+    ) : IAccountRequest;

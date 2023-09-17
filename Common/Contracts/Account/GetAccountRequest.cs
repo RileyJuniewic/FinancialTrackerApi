@@ -2,4 +2,4 @@
 
 public record GetAccountRequest(
     Guid AccountId
-    ) : AccountBase(AccountId);
+    ) : IAccountRequest;

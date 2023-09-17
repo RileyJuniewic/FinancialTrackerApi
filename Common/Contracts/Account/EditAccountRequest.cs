@@ -2,4 +2,4 @@
 
 public record EditAccountRequest(
     Guid AccountId
-    ) : AccountBase(AccountId);
+    ) : IAccountRequest;

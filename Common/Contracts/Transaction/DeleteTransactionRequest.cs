@@ -3,4 +3,4 @@
 public record DeleteTransactionRequest
     (
         Guid AccountId
-        ) : AccountBase(AccountId);
+        ) : IAccountRequest;
