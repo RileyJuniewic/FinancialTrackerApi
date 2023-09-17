@@ -1,4 +1,5 @@
 using FinancialTracker.Common.Exceptions;
+using FinancialTracker.Common.Filters;
 using FinancialTracker.Persistance;
 using FinancialTracker.Services;
 using FinancialTracker.Services.Common;
@@ -24,11 +25,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+builder.Services.AddScoped<AuthenticateAccountFilterService>();
+
 builder.Services.AddScoped<IHttpContextHelperService, HttpContextHelperService>();
 builder.Services.AddScoped<IAuthCookieService, AuthCookieService>();
 builder.Services.AddScoped<ISqlDataAccess, SqlDataAccess>();
-//builder.Services.AddScoped<IUserService, UserService>();
-//.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddScoped<ITestService, TestService>();
             
@@ -53,7 +56,6 @@ app.UseCors("CorsLocalHost8080");
 app.UseCookiePolicy();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
-//app.UseMiddleware<GuidValidationMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -2,6 +2,6 @@
 
 namespace FinancialTracker.Common.Contracts.Account;
 
-public record DeleteAccountRequest(
-    Guid AccountId
-    ) : IAuthenticatedRequest;
+public record ValidateAccountRequest(
+    Guid AccountId, 
+    Guid UserId);

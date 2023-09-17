@@ -1,3 +1,3 @@
 ﻿namespace FinancialTracker.Common.Contracts.Account;
 
-public record AddAccountRequest();
+public record AddAccountRequest(Guid AccountId);

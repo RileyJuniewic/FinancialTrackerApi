@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FinancialTracker.Controllers;
+namespace FinancialTracker.Controllers.Common;
 
 [Authorize]
-[AuthenticateAccount]
+[ServiceFilter(typeof(AuthenticateAccountFilterService))]
 [ApiController]
 [Route("[controller]")]
-public class BaseController : ControllerBase
+public class FinancialTrackerControllerBase : ControllerBase
 {
 }

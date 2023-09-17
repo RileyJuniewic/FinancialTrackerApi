@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FinancialTracker.Controllers.Common;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FinancialTracker.Controllers;
 
-public class TransactionController : BaseController
+public class TransactionController : FinancialTrackerControllerBase
 {
 }

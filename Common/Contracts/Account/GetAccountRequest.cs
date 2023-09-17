@@ -1,5 +1,7 @@
-﻿namespace FinancialTracker.Common.Contracts.Account;
+﻿using FinancialTracker.Common.Contracts.Common;
+
+namespace FinancialTracker.Common.Contracts.Account;
 
 public record GetAccountRequest(
     Guid AccountId
-    ) : IAccountRequest;
+    ) : IAuthenticatedRequest;

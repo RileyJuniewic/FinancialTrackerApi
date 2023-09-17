@@ -1,12 +1,11 @@
 ﻿using FinancialTracker.Common.Contracts;
+using FinancialTracker.Controllers.Common;
 using FinancialTracker.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinancialTracker.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class UserController : ControllerBase
+    public class UserController : FinancialTrackerControllerBase
     {
         private readonly IUserService _userService;
 

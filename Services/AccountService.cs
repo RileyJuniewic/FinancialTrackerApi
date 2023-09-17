@@ -10,6 +10,7 @@ public interface IAccountService
     Task<IEnumerable<Account>> GetAllAccountsAsync(GetAllAccountsRequest request);
     Task<Account> EditAccountAsync(EditAccountRequest request);
     Task<Account> DeleteAccountAsync(DeleteAccountRequest request);
+    Task<bool> ValidateAccountAsync(ValidateAccountRequest request);
 }
 
 public class AccountService : IAccountService
@@ -35,6 +36,11 @@ public class AccountService : IAccountService
     }
 
     public async Task<Account> DeleteAccountAsync(DeleteAccountRequest request)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<bool> ValidateAccountAsync(ValidateAccountRequest request)
     {
         throw new NotImplementedException();
     }
