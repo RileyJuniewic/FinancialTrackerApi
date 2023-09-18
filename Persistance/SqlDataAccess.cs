@@ -6,8 +6,8 @@ namespace FinancialTracker.Persistance
 {
     public interface ISqlDataAccess
     {
-        Task<IEnumerable<T>> LoadData<T, TU>(string storedProcedure, TU parameters, string connectionString = "Default");
-        Task<int> SaveData<TU>(string storedProcedure, TU parameters, string connectionString = "Default");
+        Task<IEnumerable<TReturn>> LoadData<TReturn, TParam>(string storedProcedure, TParam parameters, string connectionString = "Default");
+        Task<int> SaveData<TParam>(string storedProcedure, TParam parameters, string connectionString = "Default");
     }
 
     public class SqlDataAccess : ISqlDataAccess
@@ -19,13 +19,13 @@ namespace FinancialTracker.Persistance
             _configuration = configuration;
         }
 
-        public async Task<IEnumerable<T>> LoadData<T, TU>(string storedProcedure, TU parameters, string connectionString = "Default")
+        public async Task<IEnumerable<TReturn>> LoadData<TReturn, TParam>(string storedProcedure, TParam parameters, string connectionString = "Default")
         {
             await using var connection = new SqlConnection(_configuration.GetConnectionString(connectionString));
-            return await connection.QueryAsync<T>(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
+            return await connection.QueryAsync<TReturn>(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
         }
 
-        public async Task<int> SaveData<TU>(string storedProcedure, TU parameters, string connectionString = "Default")
+        public async Task<int> SaveData<TParam>(string storedProcedure, TParam parameters, string connectionString = "Default")
         {
             await using var connection = new SqlConnection(_configuration.GetConnectionString(connectionString));
             return await connection.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);

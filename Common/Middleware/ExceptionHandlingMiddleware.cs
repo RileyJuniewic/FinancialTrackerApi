@@ -15,6 +15,7 @@ public class ExceptionHandlingMiddleware
 
     public async Task Invoke(HttpContext context)
     {
+        //! Needs work for release build
         try
         {
             await _next(context);

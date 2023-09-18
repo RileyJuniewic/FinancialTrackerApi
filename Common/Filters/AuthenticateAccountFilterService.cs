@@ -1,15 +1,10 @@
-﻿using System.Security.Principal;
-using Azure.Identity;
-using FinancialTracker.Common.Contracts;
+﻿using Azure.Identity;
 using FinancialTracker.Common.Contracts.Account;
 using FinancialTracker.Common.Contracts.Common;
 using FinancialTracker.Common.Exceptions;
 using FinancialTracker.Common.Exceptions.Common;
-using FinancialTracker.Models;
 using FinancialTracker.Services;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Data.SqlClient;
-using NuGet.Protocol;
 
 namespace FinancialTracker.Common.Filters;
 
