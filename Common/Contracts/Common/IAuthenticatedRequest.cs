@@ -1,4 +1,7 @@
-﻿namespace FinancialTracker.Common.Contracts.Common;
+﻿using FinancialTracker.Common.Validators;
+using Microsoft.Build.Framework;
+
+namespace FinancialTracker.Common.Contracts.Common;
 
 public interface IAuthenticatedRequest
 {

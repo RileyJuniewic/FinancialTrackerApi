@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options => options.AllowInputFormatterExceptionMessages = false);
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -42,7 +42,6 @@ builder.Services.AddCors(options =>
         policy./*WithOrigins("http://localhost:8080", "http://192.168.1.236:8080")*/SetIsOriginAllowed(origin => true).AllowAnyHeader().AllowAnyMethod().AllowCredentials();
     });
 });
-
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())

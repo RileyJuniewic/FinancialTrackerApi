@@ -29,10 +29,10 @@ public class AuthenticateAccountFilterService : IAsyncActionFilter
             var validUserId = Guid.TryParse(userIdClaim.Value, out var userId);
             if (!validUserId)
                 throw new UserIdParsingException(ExceptionMessages.InternalError);
-            
+        
             var request = new ValidateAccountRequest(authenticatedRequest.AccountId, userId);
             var accountAuthenticated = await _accountService.ValidateAccountAsync(request);
-
+        
             if (!accountAuthenticated)
                 throw new AuthenticationFailedException("Please provide a valid 'AccountId'");
         }

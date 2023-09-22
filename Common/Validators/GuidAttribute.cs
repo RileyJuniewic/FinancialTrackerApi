@@ -14,17 +14,13 @@ public class GuidAttribute : ValidationAttribute
     {
         try
         {
-            var valueString = value?.ToString();
-            if (valueString == null)
-                return new ValidationResult(FormatErrorMessage(validationContext.DisplayName));
+            var guidValue = (Guid)(value ?? throw new ArgumentNullException(nameof(value)));
 
-            if (valueString.Length is > 36 or < 36)
-                return new ValidationResult(validationContext.DisplayName + " must be a Guid formatted string with the length of 36");
-
-            var isValid = Guid.TryParse(valueString, out var _);
-            
-            if (!isValid)
+            if (guidValue == Guid.Empty)
+            {
+                ErrorMessage = "Value cannot be empty";
                 return new ValidationResult(FormatErrorMessage(validationContext.DisplayName));
+            }
         }
         catch (Exception)
         {
