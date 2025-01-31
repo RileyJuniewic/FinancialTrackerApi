@@ -26,7 +26,7 @@ namespace FinancialTracker.Controllers
             Ok(await _userService.RegisterAsync(request));
             
         [HttpGet]
-        [Route("Login")]
+        [Route("RefreshJwtToken")]
         public async Task<IActionResult> Login() =>
             Ok(await _userService.LoginAsync());
 
